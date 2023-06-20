@@ -1,16 +1,15 @@
 import {Request, Response} from 'express'
-import { authenticator } from 'otplib';
-import {User} from '../models/users'
+import {userCreator, findUser} from '../models/users'
 
 async function register(req: Request, res: Response, next: Function) {
-    let user = await User.create({username: req.body.username, password: req.body.password, otpSecret: authenticator.generateSecret()});
+    let user = await userCreator(req.body.username, req.body.password);
 
     res.json({secret: user.otpSecret});
     next();
 }
 
 async function login(req: Request, res: Response, next: Function) {
-    let user = await User.findOne({ where: {username: req.body.username}});
+    let user = await findUser(req.body.username);
 
     if (user != null && await user.checkPassword(req.body.password) && user.checkOtpToken(req.body.token)) {
         res.json({message: "Logged in!"});

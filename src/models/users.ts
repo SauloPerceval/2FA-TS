@@ -6,8 +6,8 @@ import { sequelize } from '../app'
 const saltRounds = 10
 
 class User extends Model {
-    declare password: string
-    declare otpSecret: string
+    declare private password: string
+    declare readonly otpSecret: string
 
     checkPassword(password: string) {
        return bcrypt.compare(password, this.password);
@@ -20,6 +20,8 @@ class User extends Model {
     generateOtpToken() {
         return authenticator.generate(this.otpSecret);
     }
+
+    
 }
 
 User.init({
@@ -38,6 +40,15 @@ User.init({
     sequelize
 })
 
+async function userCreator(username: string, password: string): Promise<User> {
+    return await User.create({username: username, password: password, otpSecret: authenticator.generateSecret()});
+}
+
+async function findUser(username: string): Promise<User|null> {
+    return await User.findOne({ where: {username: username}});
+}
+
 export {
-    User
+    userCreator,
+    findUser
 }
