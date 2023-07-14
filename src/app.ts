@@ -10,15 +10,15 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-app.set('view engine', 'pug');
-app.set('views', __dirname + '/views');
 app.use(express.json())
+
+app.use(express.static(__dirname + '/statics'))
 
 import { authRouter } from './routes/auth';
 
 app.use('/v1/auth', authRouter)
 app.get('/', (req: Request, res: Response) => {
-    res.render('index', { title: "Hey", message: "Hello", secondMessage: "It's me" })
+    res.redirect('/home.html')
 })
 
 app.listen(port, () => {

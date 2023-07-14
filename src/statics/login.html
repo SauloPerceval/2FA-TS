@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/base.css">
+    </head>
+
+    <body>
+        <main>
+            <section class="form-section">
+                <form class="base-form" id="login-form">
+                  <div class="form-input">
+                    <input type="text" name="username" id="username" placeholder="Username" required>
+                    <p class="warning">First name cannot be empty</p>
+                  </div>
+                  <div class="form-input">
+                    <input type="Password" name="Password" id="Password" placeholder="Password" required>
+                    <p class="warning">Password cannot be empty</p>
+                  </div>
+                  <input class="send-btn" type="button" value="Register" onclick=sendLogin();>
+                </form>
+              </section>
+        </main>
+
+        <script>
+          var axios;
+          
+          function sendLogin() {
+            var data = new FormData(document.getElementById("login-form"));
+
+            axios.post(
+              '/v1/auth/login', 
+              data,
+              {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }
+            ).then(
+              function (response) {
+                console.log(response);
+              }
+            ).catch(
+              function (error) {
+                console.log(error);
+              }
+            )
+          };
+
+        </script>
+    </body>
+</html>
