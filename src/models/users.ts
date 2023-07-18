@@ -8,6 +8,7 @@ const saltRounds = 10
 class User extends Model {
     declare private password: string
     declare readonly otpSecret: string
+    declare readonly username: string
 
     checkPassword(password: string) {
        return bcrypt.compare(password, this.password);

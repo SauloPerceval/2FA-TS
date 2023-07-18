@@ -1,6 +1,7 @@
 import express, { Express, Request, Response} from 'express';
 import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize';
+import session from 'express-session';
 
 const sequelize = new Sequelize('sqlite::memory:');
 
@@ -11,8 +12,12 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
-
 app.use(express.static(__dirname + '/statics'))
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false
+  }))
 
 import { authRouter } from './routes/auth';
 
