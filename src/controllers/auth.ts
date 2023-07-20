@@ -36,7 +36,7 @@ async function retrieverOtpToken(req: Request, res: Response, next: Function) {
 async function login(req: Request, res: Response, next: Function) {
     let user = await findUser(req.body.username);
 
-    if (user != null && await user.checkPassword(req.body.password) && user.checkOtpToken(req.body.token)) {
+    if (user != null && await user.checkPassword(req.body.password)) {
         res.json({message: "Logged in!"});
         req.session.username = user.username
         req.session.validated2FA = false

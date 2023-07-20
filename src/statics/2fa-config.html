@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/base.css">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+
+    <body>
+        <main>
+            <section class="form-section">
+                <form class="base-form">
+                  <div>
+                    <h1>2FA Secret</h1>
+                    <p id="token">Placeholder</p>
+                    <input class="send-btn" type="button" value="Copied" onclick="location.href='home.html'";>
+                  </div>
+                </form>
+              </section>
+        </main>
+
+        <script>
+          var axios;
+
+          function getCode() {
+            tokenField = document.querySelector('#token')
+
+            axios.get(
+              '/v1/auth/token',
+              {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }
+              )
+              .then(function (response) {
+                tokenField.textContent = response.data.secret;
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+          };
+          getCode();
+
+        </script>
+    </body>
+</html>

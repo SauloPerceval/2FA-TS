@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="css/base.css">
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
     </head>
 
     <body>
@@ -47,6 +46,7 @@
               )
               .then(function (response) {
                 console.log(response);
+                window.location.assign("/2fa-config.html")
               })
               .catch(function (error) {
                 console.log(error);

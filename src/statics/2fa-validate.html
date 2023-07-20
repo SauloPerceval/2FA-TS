@@ -9,16 +9,12 @@
     <body>
         <main>
             <section class="form-section">
-                <form class="base-form" id="login-form">
+                <form class="base-form" id="2fa-form">
                   <div class="form-input">
-                    <input type="text" name="username" id="username" placeholder="Username" required>
-                    <p class="warning">First name cannot be empty</p>
+                    <input type="text" name="token" id="token" placeholder="Token" required>
+                    <p class="warning">Code</p>
                   </div>
-                  <div class="form-input">
-                    <input type="Password" name="password" id="Password" placeholder="Password" required>
-                    <p class="warning">Password cannot be empty</p>
-                  </div>
-                  <input class="send-btn" type="button" value="Register" onclick=sendLogin();>
+                  <input class="send-btn" type="button" value="Send" onclick=send2FAToken();>
                 </form>
               </section>
         </main>
@@ -26,11 +22,11 @@
         <script>
           var axios;
           
-          function sendLogin() {
-            var data = new FormData(document.getElementById("login-form"));
+          function send2FAToken() {
+            var data = new FormData(document.getElementById("2fa-form"));
 
             axios.post(
-              '/v1/auth/login', 
+              '/v1/auth/token/validate', 
               data,
               {
                 headers: {
@@ -38,9 +34,8 @@
                 }
               }
             ).then(
-              function (response) {                
+              function (response) {
                 console.log(response);
-                window.location.assign("/2fa-validate.html")
               }
             ).catch(
               function (error) {
